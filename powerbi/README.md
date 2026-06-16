@@ -16,3 +16,8 @@ Dataset Size:
 
 PBIX Size:
 95.5 MB
+
+## Dashboard File
+
+PBIX Download:
+(https://drive.google.com/file/d/1PO_AbEAViSwUD6kqzCnF3Lc6wkYDQomN/view?usp=sharing)
