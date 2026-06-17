@@ -17,13 +17,13 @@ Built an end-to-end credit risk analytics solution using SQL ETL, dimensional mo
 | Architecture | Bronze → Silver |
 | Dashboard Pages | 3 |
 
-A complete credit risk analytics project built using Lending Club loan data, covering the full workflow from raw data ingestion, SQL-based ETL development, dimensional modeling, and interactive Power BI reporting.
-
-The project processes more than **2.26 million loan records** and demonstrates how raw financial data can be transformed into an analytics-ready dataset for portfolio monitoring, risk assessment, and business decision-making.
-
 ---
 
 ## Project Overview
+
+A complete credit risk analytics project built using Lending Club loan data, covering the full workflow from raw data ingestion, SQL-based ETL development, dimensional modeling, and interactive Power BI reporting.
+
+The project processes more than **2.26 million loan records** and demonstrates how raw financial data can be transformed into an analytics-ready dataset for portfolio monitoring, risk assessment, and business decision-making.
 
 Financial institutions need reliable visibility into loan portfolio performance in order to identify risk exposure and improve lending decisions.
 
@@ -56,13 +56,9 @@ Executive Dashboard
 
 ## Dataset
 
-Source:
+Dataset Source:
 
-Lending Club Loan Dataset (Kaggle)
-
-Dataset Link:
-
-https://www.kaggle.com/datasets/adarshsng/lending-club-loan-data-csv
+[Lending Club Loan Dataset (Kaggle)](https://www.kaggle.com/datasets/adarshsng/lending-club-loan-data-csv)
 
 Dataset Statistics:
 
@@ -175,13 +171,7 @@ CUST-000003
 
 ## Dashboard Preview
 
-### Executive Commercial Performance
-
-![Executive Dashboard](images/executive_dashboard.png)
-
-Provides an overview of portfolio growth, funded amount, customer volume, and portfolio performance.
-
----
+The reporting solution consists of three dashboard views designed to support executive monitoring, portfolio quality assessment, and underwriting analysis.
 
 ### Portfolio Quality
 
@@ -203,26 +193,29 @@ Analyzes borrower characteristics including income bands, credit grades, verific
 
 The Power BI solution uses a star schema design.
 
+![Data Model](images/data_model.png)
+
 Main Components:
 
-```text
 Fact Table:
+
 fact_loan_analytics
 
 Dimensions:
+
 DimDate
 DimState
 
 Measures:
+
 _Key Metrics
-```
 
-The semantic model contains:
+Features:
 
-* 61 DAX Measures
-* Time Intelligence Calculations
-* Portfolio KPIs
-* Credit Risk Metrics
+- 61 DAX Measures
+- Time Intelligence Calculations
+- Portfolio KPIs
+- Credit Risk Metrics
 
 ---
 
@@ -261,6 +254,20 @@ Certain states contribute disproportionately to bad loan balances and default ex
 
 ---
 
+## Business Impact
+
+The analysis identified a measurable relationship between borrower income and loan performance.
+
+Key observations include:
+
+- Borrowers classified as Bad Loan exhibit lower average annual income compared to Good Loan borrowers.
+- Debt consolidation loans represent the largest concentration of risk exposure.
+- Lower credit grades contribute disproportionately to default activity.
+
+These findings can support risk-based lending strategies, portfolio monitoring initiatives, and underwriting decision-making.
+
+---
+
 ## Repository Structure
 
 ```text
@@ -276,6 +283,7 @@ Certain states contribute disproportionately to bad loan balances and default ex
 │   └── data_quality_report.md
 │
 ├── images/
+│   ├── data_model.png
 │   ├── executive_dashboard.png
 │   ├── portfolio_quality.png
 │   └── underwriting_insights.png
@@ -311,6 +319,7 @@ Certain states contribute disproportionately to bad loan balances and default ex
 ### Data Engineering
 
 - SQL ETL Development
+- Large-Scale Data Processing (2.26M Records)
 - Data Cleaning & Transformation
 - Data Profiling & Validation
 - Data Quality Assessment
