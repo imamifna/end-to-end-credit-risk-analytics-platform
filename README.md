@@ -338,3 +338,9 @@ Certain states contribute disproportionately to bad loan balances and default ex
 - Underwriting Insights
 - Financial Data Analysis
 - Business Recommendation Development
+
+## What I Learned
+
+This project strengthened my understanding of how raw financial data is transformed into business-ready insights through structured ETL processes, dimensional modeling, and executive-level reporting.
+
+Beyond dashboard development, the project emphasized the importance of data quality, risk classification logic, and translating analytical findings into actionable business recommendations.
