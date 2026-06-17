@@ -306,14 +306,35 @@ Certain states contribute disproportionately to bad loan balances and default ex
 
 ---
 
-## Project Focus
+## Skills Demonstrated
 
-This project was designed to demonstrate practical experience in:
+### Data Engineering
 
-* Data Cleaning
-* SQL ETL Development
-* Financial Data Analysis
-* Credit Risk Analytics
-* Business Intelligence Reporting
-* Data Modeling
-* Dashboard Development
+- SQL ETL Development
+- Data Cleaning & Transformation
+- Data Profiling & Validation
+- Data Quality Assessment
+- Medallion Architecture Design
+
+### Data Modeling
+
+- Star Schema Modeling
+- Fact & Dimension Design
+- Surrogate Key Implementation
+- Analytical Data Structures
+
+### Business Intelligence
+
+- Power BI Dashboard Development
+- DAX Measure Development
+- KPI Design
+- Time Intelligence Analysis
+- Executive Reporting
+
+### Analytics & Domain Knowledge
+
+- Credit Risk Analytics
+- Loan Portfolio Analysis
+- Underwriting Insights
+- Financial Data Analysis
+- Business Recommendation Development
