@@ -1,5 +1,22 @@
 # End-to-End Credit Risk Analytics Platform
 
+<p align="center">
+  <img src="images/executive_dashboard.png">
+</p>
+
+Built an end-to-end credit risk analytics solution using SQL ETL, dimensional modeling, and Power BI to analyze 2.26M Lending Club loan records.
+
+## Project Snapshot
+
+| Metric | Value |
+|----------|----------|
+| Records Processed | 2.26 Million |
+| Dataset Size | >1 GB |
+| Power BI Model | 95.5 MB |
+| DAX Measures | 61 |
+| Architecture | Bronze → Silver |
+| Dashboard Pages | 3 |
+
 A complete credit risk analytics project built using Lending Club loan data, covering the full workflow from raw data ingestion, SQL-based ETL development, dimensional modeling, and interactive Power BI reporting.
 
 The project processes more than **2.26 million loan records** and demonstrates how raw financial data can be transformed into an analytics-ready dataset for portfolio monitoring, risk assessment, and business decision-making.
