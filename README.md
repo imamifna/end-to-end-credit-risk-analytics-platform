@@ -1,212 +1,152 @@
-# End-to-End Lending Club Credit Risk Analytics Platform
+# End-to-End Credit Risk Analytics Platform
 
-## Executive Summary
+A complete credit risk analytics project built using Lending Club loan data, covering the full workflow from raw data ingestion, SQL-based ETL development, dimensional modeling, and interactive Power BI reporting.
 
-Built an end-to-end Credit Risk Analytics Platform using a large-scale Lending Club financial dataset containing over **2.26 million loan records**.
-
-The project demonstrates the complete analytics lifecycle, including:
-
-* Raw data ingestion
-* Data quality auditing
-* ETL pipeline development
-* Data modeling
-* Business rule implementation
-* Credit risk segmentation
-* Executive reporting in Power BI
-
-The final solution leverages a modern **Medallion Architecture (Bronze → Silver)**, processes over **2.26 million records**, and delivers a Power BI analytics layer powered by **61 DAX measures** for portfolio intelligence and risk monitoring.
+The project processes more than **2.26 million loan records** and demonstrates how raw financial data can be transformed into an analytics-ready dataset for portfolio monitoring, risk assessment, and business decision-making.
 
 ---
 
-## Project Highlights
+## Project Overview
 
-### Large-Scale Financial Data Processing
+Financial institutions need reliable visibility into loan portfolio performance in order to identify risk exposure and improve lending decisions.
 
-* Processed **2,260,668 loan records**
-* Built analytics-ready datasets from raw Lending Club loan data
-* Developed a scalable SQL ETL workflow
+This project focuses on answering questions such as:
 
-### Data Quality Recovery
+* Which borrowers contribute most to bad loans?
+* How does borrower income affect repayment behavior?
+* Which credit grades have the highest default rates?
+* What is the overall health of the lending portfolio?
 
-Raw source files contained critical data quality issues:
+The solution was developed using a two-layer Medallion Architecture:
 
-* Missing loan identifiers
-* Missing member identifiers
-* Empty numeric values
-* Inconsistent date formats
-
-To overcome this, a custom surrogate key architecture was implemented using:
-
-```sql
-synthetic_id AUTO_INCREMENT
-```
-
-ensuring reliable record tracking and future scalability.
-
-### Modern Medallion Architecture
-
-The project separates data into isolated analytical layers:
-
-#### Bronze Layer
-
-Raw CSV ingestion
-
-#### Silver Layer
-
-Cleaned, standardized, analytics-ready data
-
-This architecture improves maintainability, traceability, and analytical reliability.
-
----
-
-## Business Problem
-
-Financial institutions need to continuously monitor portfolio quality and identify factors that contribute to loan defaults.
-
-Key questions addressed:
-
-* What proportion of the portfolio is considered high risk?
-* Which borrower segments contribute most to default exposure?
-* How do income, credit grade, and borrower characteristics impact repayment behavior?
-* Which states and loan purposes generate the highest bad loan exposure?
-
----
-
-## Solution Architecture
-
-```mermaid
-flowchart LR
-
-A[Raw CSV File<br>2.26M Records]
-
---> B[Bronze Layer<br>master_lending_club]
-
---> C[SQL Data Profiling<br>Data Audit]
-
---> D[Silver Layer<br>fact_loan_analytics]
-
---> E[Star Schema Model]
-
---> F[Power BI Dashboard]
-
---> G[Executive Portfolio Intelligence]
+```text
+Raw CSV Data
+    ↓
+Bronze Layer
+(master_lending_club)
+    ↓
+SQL ETL & Data Validation
+    ↓
+Silver Layer
+(fact_loan_analytics)
+    ↓
+Power BI Semantic Model
+    ↓
+Executive Dashboard
 ```
 
 ---
 
-## Technology Stack
+## Dataset
 
-### Data Engineering
+Source:
 
-* MySQL
-* DBeaver
-* SQL ETL Development
+Lending Club Loan Dataset (Kaggle)
 
-### Business Intelligence
+Dataset Link:
 
-* Power BI
-* DAX
-* Star Schema Modeling
+https://www.kaggle.com/datasets/adarshsng/lending-club-loan-data-csv
 
-### Dataset
+Dataset Statistics:
 
-* Lending Club Loan Dataset
-* Source: Kaggle
-* Historical Period: 2007–2018
-
-Dataset Size:
-
-* 2,260,668 Records
-* 20 Selected Financial Features
-* 95.5 MB Power BI Model
+| Metric                   | Value     |
+| ------------------------ | --------- |
+| Total Records            | 2,260,668 |
+| Raw Dataset Size         | >1 GB     |
+| Power BI Model Size      | 95.5 MB   |
+| DAX Measures             | 61        |
+| Selected Business Fields | 20        |
+| Final Analytical Columns | 22        |
 
 ---
 
-## Data Engineering Workflow
+## Architecture
 
-### Bronze Layer Setup
+The project follows a simplified Medallion Architecture.
 
-Raw data ingestion table:
+### Bronze Layer
+
+Table:
 
 ```sql
 master_lending_club
 ```
 
-Key design decisions:
+Purpose:
 
-* Defensive DDL using IF NOT EXISTS
-* All columns stored as VARCHAR/TEXT
-* Prevent ingestion failures
-* Preserve raw source integrity
+* Store raw imported data
+* Preserve source integrity
+* Support future reprocessing
 
-Only the 20 highest-value financial fields were selected from the original dataset to improve processing efficiency.
+Characteristics:
 
----
+* Raw CSV ingestion
+* VARCHAR/TEXT dominant schema
+* Minimal transformation
 
-### Data Profiling & Audit
+### Silver Layer
 
-Before transformation, a comprehensive audit was performed.
-
-Findings:
-
-| Audit Item                    | Result                |
-| ----------------------------- | --------------------- |
-| Total Records                 | 2,260,668             |
-| Missing Income Records        | 4                     |
-| Credit Status Categories      | Multiple Risk Classes |
-| Missing IDs                   | Present               |
-| Date Standardization Required | Yes                   |
-
----
-
-### Silver Layer ETL
-
-Final analytical table:
+Table:
 
 ```sql
 fact_loan_analytics
 ```
 
-Total Fields:
+Purpose:
 
-22 Columns
+* Cleaned analytical dataset
+* Standardized business attributes
+* Reporting-ready structure
 
-Transformations performed:
+Characteristics:
 
-### Data Sanitization
+* Typed columns
+* Date standardization
+* Risk classification
+* Feature engineering
 
-* TRIM()
-* NULLIF()
-* CAST()
+Additional documentation:
 
-### String Parsing
+* docs/architecture_notes.md
+* docs/data_quality_report.md
 
-* REGEXP_REPLACE()
+---
 
-### Date Standardization
+## Data Engineering Process
 
-* STR_TO_DATE()
+### 1. Raw Data Ingestion
 
-### Risk Classification
+Imported Lending Club data into MySQL using a dedicated Bronze Layer table.
 
-Automatically categorized borrowers into:
+To avoid ingestion failures caused by inconsistent source data, columns were initially stored as text-based fields.
 
-#### Good Loan
+### 2. Data Profiling
 
-* Fully Paid
-* Current
-* Does not meet credit policy - Fully Paid
+Performed exploratory audits to identify data quality issues.
 
-#### Bad Loan
+Key findings:
 
-* Charged Off
-* Default
-* Late
-* Other Delinquent Statuses
+* 2,260,668 total records
+* Missing identifier fields
+* Empty income values
+* Non-standard date formats
+* Text-based numerical fields
 
-### Customer ID Engineering
+### 3. ETL Transformation
 
-Generated business-friendly identifiers:
+Built a SQL pipeline to transform raw data into an analytics-ready model.
+
+Main transformations included:
+
+* NULL handling
+* Data sanitization
+* Type conversion
+* Date standardization
+* Employment length parsing
+* Customer ID generation
+* Credit risk classification
+
+Example generated customer ID:
 
 ```text
 CUST-000001
@@ -216,159 +156,147 @@ CUST-000003
 
 ---
 
+## Dashboard Preview
+
+### Executive Commercial Performance
+
+![Executive Dashboard](images/executive_dashboard.png)
+
+Provides an overview of portfolio growth, funded amount, customer volume, and portfolio performance.
+
+---
+
+### Portfolio Quality
+
+![Portfolio Quality](images/portfolio_quality.png)
+
+Focuses on loan quality, default exposure, recovery performance, and geographic risk distribution.
+
+---
+
+### Underwriting Insights
+
+![Underwriting Insights](images/underwriting_insights.png)
+
+Analyzes borrower characteristics including income bands, credit grades, verification status, and home ownership.
+
+---
+
 ## Data Model
 
-Star Schema Architecture
+The Power BI solution uses a star schema design.
 
-### Fact Table
+Main Components:
 
 ```text
+Fact Table:
 fact_loan_analytics
-```
 
-### Dimension Tables
-
-```text
+Dimensions:
 DimDate
 DimState
-```
 
-### Measure Table
-
-```text
+Measures:
 _Key Metrics
 ```
 
 The semantic model contains:
 
 * 61 DAX Measures
-* Time Intelligence Metrics
-* YoY Growth Analysis
-* Portfolio Risk Metrics
+* Time Intelligence Calculations
+* Portfolio KPIs
+* Credit Risk Metrics
 
 ---
 
-## Power BI Dashboard
+## Portfolio Validation
 
-### Executive Commercial Performance
+Final validation was performed directly from the Silver Layer.
 
-Provides executive-level visibility into:
-
-* Total Funded Amount
-* Total Customers
-* Interest Rate Trends
-* NPL Ratio
-* Funding Growth
+| Risk Category | Borrowers | Avg Annual Income |  Funded Amount |
+| ------------- | --------: | ----------------: | -------------: |
+| Good Loan     | 1,963,631 |        $79,017.32 | $29.35 Billion |
+| Bad Loan      |   297,033 |        $71,217.03 |  $4.66 Billion |
 
 ---
 
-### Portfolio Quality
+## Key Findings
 
-Analyzes:
+### Income Matters
 
-* Good Loan vs Bad Loan
-* Recovery Rate
-* Bad Loan Exposure
-* Geographic Risk Distribution
+Borrowers classified as Bad Loan have a lower average annual income than Good Loan borrowers.
 
----
+### Credit Grade Drives Risk
 
-### Underwriting Insights
+Default rates increase significantly as credit quality decreases from Grade A to Grade G.
 
-Explores:
+### Debt Consolidation Is the Largest Risk Segment
 
-* Credit Grade Risk
-* Income Band Analysis
-* Income Verification Impact
-* Home Ownership Risk
-* Debt-to-Income Performance
+Debt consolidation loans contribute the largest share of bad loan exposure.
 
----
+### Home Ownership Shows Different Risk Profiles
 
-## Portfolio Validation Results
+Borrowers who rent tend to show higher default rates than mortgage holders.
 
-### Loan Risk Segmentation
+### Geographic Risk Varies
 
-| Risk Category | Borrowers | Average Income | Total Funded Amount |
-| ------------- | --------: | -------------: | ------------------: |
-| Good Loan     | 1,963,631 |     $79,017.32 |             $29.35B |
-| Bad Loan      |   297,033 |     $71,217.03 |              $4.66B |
+Certain states contribute disproportionately to bad loan balances and default exposure.
 
 ---
 
-## Key Business Insights
+## Repository Structure
 
-### Insight 1
-
-Borrowers classified as Bad Loan exhibit lower average annual income than Good Loan borrowers.
-
-### Insight 2
-
-Default rates increase significantly as credit quality deteriorates from Grade A to Grade G.
-
-### Insight 3
-
-Debt Consolidation loans contribute the largest share of bad loan exposure.
-
-### Insight 4
-
-Renters demonstrate higher default risk than mortgage holders.
-
-### Insight 5
-
-Lower income bands consistently exhibit higher default rates.
-
----
-
-## Business Recommendations
-
-### Strengthen Credit Approval Rules
-
-Introduce stricter underwriting requirements for high-risk credit grades.
-
-### Enhance Income-Based Risk Assessment
-
-Use annual income as a stronger factor in credit scoring models.
-
-### Monitor High-Risk Loan Purposes
-
-Increase monitoring for debt consolidation and other high-risk loan categories.
-
-### Geographic Risk Surveillance
-
-Apply additional controls in states with elevated bad loan exposure.
+```text
+.
+├── dataset/
+│   ├── README.md
+│   └── Sample_dataset.csv
+│
+├── docs/
+│   ├── architecture_notes.md
+│   ├── business_requirements.md
+│   ├── data_dictionary.md
+│   └── data_quality_report.md
+│
+├── images/
+│   ├── executive_dashboard.png
+│   ├── portfolio_quality.png
+│   └── underwriting_insights.png
+│
+├── powerbi/
+│   └── README.md
+│
+├── sql_script/
+│   ├── bronze_layer_setup.sql
+│   ├── data_profiling.sql
+│   └── silver_layer_etl.sql
+│
+└── README.md
+```
 
 ---
 
-## Project Outcomes
+## Tools Used
 
-This project demonstrates capabilities across:
-
-### Data Engineering
-
+* MySQL
+* DBeaver
+* Power BI
+* DAX
+* SQL
+* Star Schema Modeling
+* Data Quality Auditing
 * ETL Development
-* Data Quality Management
-* Data Modeling
-* SQL Optimization
-
-### Business Intelligence
-
-* Dashboard Development
-* KPI Design
-* DAX Development
-* Executive Reporting
-
-### Financial Analytics
-
-* Credit Risk Analysis
-* Portfolio Intelligence
-* Underwriting Analytics
-* Lending Performance Monitoring
 
 ---
 
-## Author
+## Project Focus
 
-Aspiring Data Analyst | Business Intelligence Analyst
+This project was designed to demonstrate practical experience in:
 
-Focused on transforming large-scale financial data into actionable business insights through SQL, Power BI, and modern analytics engineering practices.
+* Data Cleaning
+* SQL ETL Development
+* Financial Data Analysis
+* Credit Risk Analytics
+* Business Intelligence Reporting
+* Data Modeling
+* Dashboard Development
